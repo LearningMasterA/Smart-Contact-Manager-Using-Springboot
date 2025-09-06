@@ -7,15 +7,21 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Contact {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int cId;
+	@NotBlank(message = "name field is required")
+	@Size(min=2,max=20,message = "min 3 and max 20 characters are allowed")
 	private String name;
 	private String secondName;
 	private String work;
+	@Email
 	private String email;
 	private String phone;
 	private String image;

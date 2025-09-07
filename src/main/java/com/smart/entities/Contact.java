@@ -9,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 @Entity
@@ -21,7 +22,7 @@ public class Contact {
 	private String name;
 	private String secondName;
 	private String work;
-	@Email
+	@Pattern(regexp ="^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")
 	private String email;
 	private String phone;
 	private String image;

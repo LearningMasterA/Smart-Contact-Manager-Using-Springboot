@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{base::layout(~{::section})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Login Page</title>
+</head>
+<body>
+<section>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="mycard p-4 shadow-sm">
+
+                    <!-- Flash message (error/success) -->
+                    <div th:if="${param.error}" class="alert alert-danger text-center">
+                        Invalid username or password
+                    </div>
+                    <div th:if="${param.logout}" class="alert alert-success text-center">
+                        You have been logged out successfully
+                    </div>
+
+                    <div class="container text-center mb-3">
+                        <img alt="login" th:src="@{/img/login.png}" width="60px" height="60px">
+                    </div>
+
+                    <h2 class="text-center">Login</h2>
+
+                    <!-- Login form -->
+                    <form th:action="@{/dologin}" method="post">
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Email</label>
+                            <input type="text" id="username" name="username" class="form-control"
+                                   placeholder="Enter your email" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" id="password" name="password" class="form-control"
+                                   placeholder="Enter your password" required>
+                        </div>
+
+                        <div class="container text-center mt-3">
+                            <button type="submit" class="btn btn-primary">Login</button>
+                           <!--  <a th:href="@{/signup}" class="btn btn-link">Register</a> -->
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

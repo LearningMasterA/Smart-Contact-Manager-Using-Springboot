@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -54,6 +55,7 @@ public class MyConfig {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 	    http
+	    .authenticationProvider(authenticationProvider())
 	        .authorizeHttpRequests(auth -> auth
 	            .requestMatchers("/admin/**").hasRole("ADMIN")
 	            .requestMatchers("/user/**").hasRole("USER")
@@ -63,13 +65,24 @@ public class MyConfig {
 	        	    .loginPage("/signin")               // your custom login page
 	        	    .loginProcessingUrl("/dologin")     // form action URL
 	        	    .defaultSuccessUrl("/user/index", true) // redirect after login
+	        	    .failureUrl("/signin?error=true")   
 	        	    .permitAll()
 	        	)
+	        .logout(logout -> logout
+	                .logoutUrl("/logout")
+	                .logoutSuccessUrl("/signin?logout=true")
+	                .permitAll()
+	            )
 
 	        .csrf(csrf -> csrf.disable());
 
 	    return http.build();
 	}
+	
+	@Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+        return config.getAuthenticationManager();
+    }
 
 	
 	/*

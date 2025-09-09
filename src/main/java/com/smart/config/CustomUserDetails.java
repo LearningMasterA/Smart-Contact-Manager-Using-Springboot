@@ -25,7 +25,7 @@ public CustomUserDetails(User user) {
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		
 		// TODO Auto-generated method stub
-		SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(user.getPassword());
+		SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(user.getRole());
 		
 		return List.of(simpleGrantedAuthority);
 	}
@@ -40,5 +40,31 @@ public CustomUserDetails(User user) {
 		// TODO Auto-generated method stub
 		return user.getEmail();
 	}
+	
+	@Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+	
+	 @Override
+	    public boolean isAccountNonLocked() {
+	        return true;
+	    }
+
+	    @Override
+	    public boolean isCredentialsNonExpired() {
+	        return true;
+	    }
+	    @Override
+	    public boolean isEnabled() {
+	        return user.isEnabled(); // use your DB column
+	    }
+
+	    // Optional helper to access full user entity
+	    public User getUser() {
+	        return this.user;
+	    }
+	
+	
 
 }

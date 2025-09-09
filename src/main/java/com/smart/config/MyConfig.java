@@ -62,15 +62,15 @@ public class MyConfig {
 	            .requestMatchers("/**").permitAll()
 	        )
 	        .formLogin(form -> form
-	        	    .loginPage("/signin")               // your custom login page
+	        	    .loginPage("/login")               // your custom login page
 	        	    .loginProcessingUrl("/dologin")     // form action URL
 	        	    .defaultSuccessUrl("/user/index", true) // redirect after login
-	        	    .failureUrl("/signin?error=true")   
+	        	    .failureUrl("/login?error=true")   
 	        	    .permitAll()
 	        	)
 	        .logout(logout -> logout
 	                .logoutUrl("/logout")
-	                .logoutSuccessUrl("/signin?logout=true")
+	                .logoutSuccessUrl("/login?logout=true")
 	                .permitAll()
 	            )
 

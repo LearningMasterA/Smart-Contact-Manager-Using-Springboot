@@ -100,10 +100,10 @@ public class HomeController {
             return "redirect:/signup";
     	}
     }
-    @GetMapping("/signin")
-    public String login(Model model) {
+    @GetMapping("/login")
+    public String customlogin(Model model) {
         model.addAttribute("title", "Login - Smart Contact Manager");
-        return "signin"; // maps to signin.html (Thymeleaf template)
+        return "login"; // maps to signin.html (Thymeleaf template)
     }
 
     

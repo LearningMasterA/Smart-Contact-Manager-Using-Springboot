@@ -47,6 +47,7 @@ public class UserController {
 //		User user = this.repo.getUserByUserName(username);
 //		System.out.println(user);
 //		m.addAttribute("user", user);
+		m.addAttribute("title", "User Dashboard ");
 		return "normal/user_dashboard";
 	}
 	

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.smart.dao.UserRepository;
@@ -66,5 +67,11 @@ public class UserController {
 		
 		return "normal/add_contact";
 	}
-
+	
+	@PostMapping("/process-contact")
+	public String processContact(@ModelAttribute Contact contact){
+		System.out.println(contact);
+		return "normal/add_contact";
+	}
+ 
 }

@@ -1,5 +1,7 @@
 package com.smart.entities;
 
+import org.springframework.web.multipart.MultipartFile;
+
 //import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.persistence.CascadeType;
@@ -31,12 +33,39 @@ public class Contact {
 	private String image;
 	
 	
+	public String getImage() {
+		return image;
+	}
+
+
+
+
 	public void setImage(String image) {
 		this.image = image;
 	}
+	
+	
+	
+//	 private MultipartFile image;
+	
+//	public void setImage(String image) {
+//		this.image = image;
+//	}
+	 
+	 
 	@Column(length=5000)
 	private String description;
 	
+//	public MultipartFile getImage() {
+//		return image;
+//	}
+//
+//
+//
+//
+//	public void setImage(MultipartFile image) {
+//		this.image = image;
+//	}
 	@ManyToOne(cascade = CascadeType.ALL)
 	private User user;
 	

@@ -11,6 +11,7 @@ import java.util.function.Function;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -40,8 +41,8 @@ public class UserController {
 	private UserRepository repo;
 	
 
-	@Value("${file.uploadDir}")
-    private String uploadDir;
+//	@Value("${file.uploadDir}")
+//    private String uploadDir;
 
 
     UserController(DaoAuthenticationProvider authenticationProvider) {
@@ -92,6 +93,24 @@ public class UserController {
 		try {
 		String name=principal.getName();
 		User user = this.repo.getUserByUserName(name);
+		
+		
+//		Processjng and uploading file
+		if(file.isEmpty()) {
+			System.out.println("file is empty");
+		}
+		else {
+//			upload the file to folder and then save it in contacts
+			String filename=file.getOriginalFilename();
+//			String filename = new ClassPathResource("static/img").getFilename();
+//			Path path=Paths.get(filename.getAbsolutePath()+file.separator+filename.getOriginalName());
+			Path uploadDir=Paths.get("src/main/resources/static/img");
+			Path path=uploadDir.resolve(filename);
+			Files.copy(file.getInputStream(),path, StandardCopyOption.REPLACE_EXISTING);
+			
+			contact.setImage(filename);
+			System.out.println("Image is uploaded");
+		}
 		contact.setUser(user);
 		
 		user.getContacts().add(contact);

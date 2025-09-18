@@ -89,11 +89,11 @@ public class HomeController {
         	
         	 redirectAttributes.addFlashAttribute("message",
                      new Message("Successfully Registered !!", "alert-success"));
-        	    return "redirect:/signup";
+        	    return "redirect:/signup"; 
     	}
     	catch(Exception e) {
     		e.printStackTrace();
-    		m.addAttribute("user",user);
+    		m.addAttribute("user",user); 
     		redirectAttributes.addFlashAttribute("message",
                     new Message("Something went wrong: " + e.getMessage(), "alert-danger"));
 

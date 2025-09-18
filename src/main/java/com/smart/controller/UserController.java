@@ -26,10 +26,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.smart.dao.UserRepository;
 import com.smart.entities.Contact;
 import com.smart.entities.User;
+import com.smart.helper.Message;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/user")
@@ -89,7 +93,7 @@ public class UserController {
 	}
 	
 	@PostMapping("/process_contact")
-	public String processContact(@ModelAttribute Contact contact,@RequestParam("profileImage") MultipartFile file, Principal principal){
+	public String processContact(@ModelAttribute Contact contact,@RequestParam("profileImage") MultipartFile file, Principal principal,RedirectAttributes redirectAttributes){
 		try {
 		String name=principal.getName();
 		User user = this.repo.getUserByUserName(name);
@@ -118,11 +122,20 @@ public class UserController {
 		
 		System.out.println("Contact saved : "+contact);
 		System.out.println("Contact added successfully...");
+		
+		
+//		Message success
+		redirectAttributes.addFlashAttribute("message",
+                new Message("Successfully added !!", "alert-success"));
+		
+		
 		}catch(Exception e) {
 			System.out.println("ERROR:" + e.getMessage());
 			e.printStackTrace();
+			redirectAttributes.addFlashAttribute("message",
+                    new Message("Something went wrong: " + e.getMessage(), "alert-danger"));
 		}
-		return "normal/add_contact";
+		return "redirect:/user/add_contact";
 	} 
 
 }

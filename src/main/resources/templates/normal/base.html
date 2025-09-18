@@ -79,6 +79,7 @@
 	<a href="#" class="item"><i class="fa-solid fa-gear"></i> Settings</a>
 	<a href="#" th:href="@{/logout}" class="item"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
 	
+	
 	<div class="divider"></div>
 	
 	
@@ -91,8 +92,15 @@
 	<!-- Content Area -->
 	<div class="content">
 	<i onclick="toggleSidebar()" class="fa-solid fa-bars"></i>
-	
-	<div th:replace="${content}"></div>
+		<div  th:if="${message}" th:classappend="${message.type}" class="container">
+			<div class="alert alert-success text-center" role="alert">This
+				<span th:text="${message.content}"></span>
+			</div>
+			
+			<th:block th:text="${}"></th:block>
+		</div>
+
+		<div th:replace="${content}"></div>
 	</div>
 	
 	

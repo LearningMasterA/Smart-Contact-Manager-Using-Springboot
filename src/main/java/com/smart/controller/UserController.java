@@ -16,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.FluentQuery.FetchableFluentQuery;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,6 +33,8 @@ import com.smart.entities.User;
 @Controller
 @RequestMapping("/user")
 public class UserController {
+
+    private final DaoAuthenticationProvider authenticationProvider;
 	
 	@Autowired
 	private UserRepository repo;
@@ -39,6 +42,11 @@ public class UserController {
 
 	@Value("${file.uploadDir}")
     private String uploadDir;
+
+
+    UserController(DaoAuthenticationProvider authenticationProvider) {
+        this.authenticationProvider = authenticationProvider;
+    }
 	
 	
 //	Method to add ommon data
@@ -80,31 +88,22 @@ public class UserController {
 	}
 	
 	@PostMapping("/process_contact")
-	public String processContact(@ModelAttribute Contact contact,Principal principal,@RequestParam("image") MultipartFile file,Model model){
+	public String processContact(@ModelAttribute Contact contact,@RequestParam("profileImage") MultipartFile file, Principal principal){
+		try {
 		String name=principal.getName();
 		User user = this.repo.getUserByUserName(name);
 		contact.setUser(user);
 		
-		
-		
-		/*
-		 * try { if(!file.isEmpty()) { Files.createDirectories(Paths.get(uploadDir));
-		 * String filename=file.getOriginalFilename(); Path
-		 * path=Paths.get(uploadDir,filename); // Copy file to upload directory
-		 * Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-		 * 
-		 * // Save only filename in DB contact.setImage(filename); } else { // If no
-		 * file uploaded, assign default contact.setImage("default.png"); } } catch
-		 * (Exception e) { e.printStackTrace(); contact.setImage("default.png"); }
-		 */
 		user.getContacts().add(contact);
 		this.repo.save(user);
 		
 		System.out.println("Contact saved : "+contact);
-		model.addAttribute("contact", new Contact());
-	    model.addAttribute("message", "Contact added successfully!");
 		System.out.println("Contact added successfully...");
+		}catch(Exception e) {
+			System.out.println("ERROR:" + e.getMessage());
+			e.printStackTrace();
+		}
 		return "normal/add_contact";
-	}
- 
+	} 
+
 }

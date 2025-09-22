@@ -103,6 +103,7 @@ public class UserController {
 		if(file.isEmpty()) {
 			System.out.println("file is empty");
 		}
+		
 		else {
 //			upload the file to folder and then save it in contacts
 			String filename=file.getOriginalFilename();
@@ -115,6 +116,7 @@ public class UserController {
 			contact.setImage(filename);
 			System.out.println("Image is uploaded");
 		}
+		
 		contact.setUser(user);
 		
 		user.getContacts().add(contact);
@@ -134,7 +136,7 @@ public class UserController {
 			e.printStackTrace();
 			redirectAttributes.addFlashAttribute("message",
                     new Message("Something went wrong: " + e.getMessage(), "alert-danger"));
-		}
+		} 
 		return "redirect:/user/add_contact";
 	} 
 

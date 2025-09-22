@@ -139,5 +139,11 @@ public class UserController {
 		} 
 		return "redirect:/user/add_contact";
 	} 
+	
+	@GetMapping("/show_contacts")
+	public String showContacts(Model m) {
+		m.addAttribute("title", "Show User Contacts");
+		return "normal/show_contacts";
+	}
 
 }

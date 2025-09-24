@@ -10,6 +10,31 @@
 <div class="card-body">
 <h1 class="text-center">Your Contacts</h1>
 
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">id</th>
+      <th scope="col">Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Phone</th>
+      <th scope="col">Action</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    <tr th:each="c:${contacts}">
+      <th scope="row" th:text=" 'SCM2025'+${c.cId}">1</th>
+      <td th:text="${c.name}">Mark</td>
+      <td th:text="${c.email}">Otto</td>
+      <td th:text="${c.phone}">@mdo</td>
+      <td>@mdo</td>
+    </tr>
+    
+    
+  </tbody>
+</table>
+
 </div>
 </div>
 

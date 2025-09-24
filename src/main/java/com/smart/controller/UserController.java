@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.smart.dao.ContactRepository;
 import com.smart.dao.UserRepository;
 import com.smart.entities.Contact;
 import com.smart.entities.User;
@@ -43,6 +44,9 @@ public class UserController {
 	
 	@Autowired
 	private UserRepository repo;
+	
+	@Autowired
+	public ContactRepository contactRepo;
 	
 
 //	@Value("${file.uploadDir}")
@@ -141,8 +145,25 @@ public class UserController {
 	} 
 	
 	@GetMapping("/show_contacts")
-	public String showContacts(Model m) {
+	public String showContacts(Model m,Principal p) {
 		m.addAttribute("title", "Show User Contacts");
+		
+//		Contacts ki list ko bhejna hai
+//		String userName=principal.getName();
+//		User name = this.repo.getUserByUserName(userName);
+//		List<Contact> contacts=name.getContacts();
+		
+		String name = p.getName();
+		User userName = this.repo.getUserByUserName(name);
+		int id = userName.getId();
+		
+		
+		List<Contact> list = this.contactRepo.findContactsByUser(id);
+		m.addAttribute("contacts", list);
+		System.out.println(list);
+		
+		
+		
 		return "normal/show_contacts";
 	}
 

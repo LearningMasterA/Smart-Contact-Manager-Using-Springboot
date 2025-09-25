@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.FluentQuery.FetchableFluentQuery;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -144,8 +146,13 @@ public class UserController {
 		return "redirect:/user/add_contact";
 	} 
 	
-	@GetMapping("/show_contacts")
-	public String showContacts(Model m,Principal p) {
+	
+	
+//	per page 5 contacts
+//	curr page =0
+	
+	@GetMapping("/show_contacts/{page}")
+	public String showContacts(@PathVariable("page")Integer page, Model m,Principal p) {
 		m.addAttribute("title", "Show User Contacts");
 		
 //		Contacts ki list ko bhejna hai
@@ -156,15 +163,22 @@ public class UserController {
 		String name = p.getName();
 		User userName = this.repo.getUserByUserName(name);
 		int id = userName.getId();
+		Pageable pageable = PageRequest.of(page, 5);
 		
-		
-		List<Contact> list = this.contactRepo.findContactsByUser(id);
+		Page<Contact> list = this.contactRepo.findContactsByUser(id,pageable);
 		m.addAttribute("contacts", list);
+		m.addAttribute("current page", page);
+		m.addAttribute("totalPages", list.getTotalPages());
 		System.out.println(list);
 		
 		
 		
 		return "normal/show_contacts";
 	}
+	
+	
+	
+//	per page 5 contacts
+//	curr page =0
 
 }

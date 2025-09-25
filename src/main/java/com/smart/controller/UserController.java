@@ -167,7 +167,7 @@ public class UserController {
 		
 		Page<Contact> list = this.contactRepo.findContactsByUser(id,pageable);
 		m.addAttribute("contacts", list);
-		m.addAttribute("current page", page);
+		m.addAttribute("currentPage", page);
 		m.addAttribute("totalPages", list.getTotalPages());
 		System.out.println(list);
 		

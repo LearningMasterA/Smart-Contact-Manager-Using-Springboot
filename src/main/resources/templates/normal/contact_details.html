@@ -5,7 +5,22 @@
 <title>Insert title here</title>
 </head>
 <body>
-<section>This is private dashboard</section>
+<section>
+<div class="card">
+<div class="card-body">
+<div class="container text-center">
+<img src="" style="height:200px ; width:300px" class="my_profile_picture" th:src="@{'/img/'+${contact.image}}" alt="profile_photo">
+<h3 th:text="${contact.name}"></h3>
+<h3 th:text="${contact.secondName}"></h3>
+<h3 th:text="${contact.phone}"></h3>
+<h3 th:text="${contact.work}"></h3>
+<h3 th:text="${contact.email}"></h3>
+<h3 th:text="${contact.description}"></h3>
+</div>
+</div>
+</div>
+
+</section>
 
 </body>
 </html>

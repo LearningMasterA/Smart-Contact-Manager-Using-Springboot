@@ -28,11 +28,18 @@
       <td>
       <img src="" class="my_profile_picture" th:src="@{'/img/'+${c.image}}" alt="profile_photo">
       <span th:text="${c.name}"></span></td>
-      <td th:text="${c.email}">Otto</td>
+      <td>
+      <a href="#" th:href="@{'/user/'+${c.cId}+'/contact'}">
+      <span th:text="${c.email}"></span>
+      
+      </a>
+      
+      
+      </td>
       <td th:text="${c.phone}">@mdo</td>
       <td>
       <button class="btn btn-danger">Delete</button>
-      <button class="btn btn-success">Updatee</button>
+      <button class="btn btn-success">Update</button>
       
       
       </td>

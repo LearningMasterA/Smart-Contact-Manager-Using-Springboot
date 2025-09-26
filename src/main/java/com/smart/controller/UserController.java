@@ -108,6 +108,7 @@ public class UserController {
 //		Processjng and uploading file
 		if(file.isEmpty()) {
 			System.out.println("file is empty");
+			contact.setImage("contact.jpg");
 		}
 		
 		else {
@@ -178,7 +179,15 @@ public class UserController {
 	
 	
 	
-//	per page 5 contacts
-//	curr page =0
+//	Showing particular contact details
+	
+	@GetMapping("/{cId}/contact")
+	public String showContactDetails(@PathVariable("cId") Integer cId) {
+		System.out.println(cId);
+		return "normal/contact_details";
+	}
+	
+	
+
 
 }

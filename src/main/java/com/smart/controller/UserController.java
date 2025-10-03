@@ -182,11 +182,17 @@ public class UserController {
 //	Showing particular contact details
 	
 	@GetMapping("/{cId}/contact")
-	public String showContactDetails(@PathVariable("cId") Integer cId, Model m) {
+	public String showContactDetails(@PathVariable("cId") Integer cId, Model m,Principal principal) {
 		System.out.println(cId);
 		Optional<Contact> contactOptional = this.contactRepo.findById(cId);
 		Contact contact=contactOptional.get();
-		m.addAttribute("contact", contact);
+		
+		
+//	
+		String name = principal.getName();
+		User user = this.repo.getUserByUserName(name);
+		if(user.getId()==contact.getUser().getId()) m.addAttribute("contact", contact);
+		
 		
 		return "normal/contact_details";
 	}

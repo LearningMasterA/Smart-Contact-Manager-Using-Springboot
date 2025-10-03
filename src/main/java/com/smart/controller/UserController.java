@@ -198,6 +198,38 @@ public class UserController {
 	}
 	
 	
+	
+	
+//	Delete contact handler
+	
+	@GetMapping("/delete/{cid}")
+	public String deleteContact(@PathVariable("cid") Integer cId,Model m,Principal principal,HttpSession session) {
+		Optional<Contact> contactOptional = this.contactRepo.findById(cId);
+		Contact contact = contactOptional.get();
+		
+//		contact.setUser(null);
+		
+		String name = principal.getName();
+		User name2 = this.repo.getUserByUserName(name);
+		
+//		check...
+		if(name2.getId()==contact.getUser().getId()) {
+			this.contactRepo.delete(contact);
+			m.addAttribute("contact", contact);
+			session.setAttribute("message", new Message("Contact deleted successfully","success"));
+		}
+		else {
+			session.setAttribute("message", new Message("You are not authorized to delete this contact", "danger"));
+		}
+		
+		
+		return "redirect:/user/show_contacts/0";
+	}
+	
+	
+	
+	
+	
 
 
 }

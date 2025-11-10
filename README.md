@@ -4,23 +4,15 @@ A full-stack contact management application built with Spring Boot and Thymeleaf
 
 Table of Contents
 
-Features
+1)Features
 
-Technologies Used
+2)Technologies Used
 
-Demo
+3)Installation
 
-Installation
+4)Usage
 
-Usage
-
-Project Structure
-
-Future Enhancements
-
-License
-
-Features
+1. Features
 
 User Authentication (Login & Signup)
 
@@ -36,7 +28,7 @@ Toast/alert notifications for actions (add/update/delete)
 
 Backend validation for secure and consistent data
 
-Technologies Used
+2. Technologies Used
 
 Backend:
 
@@ -77,7 +69,7 @@ Steps
 
 Clone the repository:
 
-git clone https://github.com/yourusername/smart-contact-manager.git
+git clone https://github.com/LearningMasterA/smart-contact-manager.git
 cd smart-contact-manager
 
 

@@ -66,7 +66,7 @@ public class Contact {
 //	public void setImage(MultipartFile image) {
 //		this.image = image;
 //	}
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	private User user;
 	
 	

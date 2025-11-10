@@ -1,4 +1,4 @@
-package com.smart.controller;
+ package com.smart.controller;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -203,9 +203,13 @@ public class UserController {
 //	Delete contact handler
 	
 	@GetMapping("/delete/{cid}")
-	public String deleteContact(@PathVariable("cid") Integer cId,Model m,Principal principal,HttpSession session) {
-		Optional<Contact> contactOptional = this.contactRepo.findById(cId);
-		Contact contact = contactOptional.get();
+	public String deleteContact(@PathVariable("cid") int cId,Model m,Principal principal,RedirectAttributes redirectAttributes) {
+		Contact contact = this.contactRepo.findById(cId).orElse(null);
+		if (contact == null) {
+	        redirectAttributes.addFlashAttribute("message",
+	                new Message("Contact not found!", "alert-danger"));
+	        return "redirect:/user/show_contacts";
+	    }
 		
 //		contact.setUser(null);
 		
@@ -214,12 +218,17 @@ public class UserController {
 		
 //		check...
 		if(name2.getId()==contact.getUser().getId()) {
+			name2.getContacts().remove(contact);
 			this.contactRepo.delete(contact);
 			m.addAttribute("contact", contact);
-			session.setAttribute("message", new Message("Contact deleted successfully","success"));
+			redirectAttributes.addFlashAttribute("message",
+	                new Message("Contact deleted successfully", "alert-success"));
+//			session.setAttribute("message", new Message("Contact deleted successfully","success"));
 		}
 		else {
-			session.setAttribute("message", new Message("You are not authorized to delete this contact", "danger"));
+			redirectAttributes.addFlashAttribute("message",
+                    new Message("You are not authorized to delete this contact", "alert-danger"));
+//			session.setAttribute("message", new Message("You are not authorized to delete this contact", "danger"));
 		}
 		
 		

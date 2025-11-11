@@ -303,6 +303,13 @@ public class UserController {
 	}
 	
 	
+	@GetMapping("/profile")
+	public String yourProfile(Model m) {
+		m.addAttribute("title","Profile page");
+		return "normal/profile";
+	}
+	
+	
 	
 	
 }

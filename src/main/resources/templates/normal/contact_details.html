@@ -51,9 +51,9 @@
 </div>
   
   <div class="container mt-3">
-  
-  <button class="btn btn-danger">Delete</button>
-      <button class="btn btn-success">Update</button></div>
+  <a href="#" th:onclick="|deleteContact(${contact.cId})|" class="btn btn-danger">Delete</a>
+      <form th:action="@{'/user/update-contact/'+${contact.cId}}" method="post" >
+      <button type="submit" class="btn btn-primary mt-2">Update</button>
 </div>
 </div>
 </div>

@@ -236,9 +236,73 @@ public class UserController {
 	}
 	
 	
+//	Open update form
+	@PostMapping("/update-contact/{cid}")
+	public String updateForm(@PathVariable("cid") int cid,Model m) {
+		m.addAttribute("title","Update Contact");
+		Contact contact = this.contactRepo.findById(cid).get();
+		m.addAttribute("contact",contact);
+		return "normal/update_form";
+	}
+	
+//	Update Contact handler
+	@PostMapping("/process_update")
+	public String process_update(@ModelAttribute Contact contact,@RequestParam("profileImage") MultipartFile file,
+			  Model m,RedirectAttributes redirectAttributes,Principal principal ) {
+		System.out.println(contact);
+		try {
+			Contact oldContact = this.contactRepo.findById(contact.getcId()).get();
+			if(oldContact==null) {
+				redirectAttributes.addFlashAttribute("message",new Message("Contact not found!","alert-danger"));
+				return "redirect:/user/show_contacts/0";
+			}
+			Path uploadDir=Paths.get("src/main/resources/static/img");
+			//image
+			if(!file.isEmpty()) {
+				//file work
+//				rewrite
+//				delete old photo
+			String oldImageName=oldContact.getImage();
+			Path oldImagePath=uploadDir.resolve(oldImageName);
+			try {
+				if(!oldImageName.equals("defauld.png")) {
+					Files.deleteIfExists(oldImagePath);
+				}
+			}
+			catch(Exception e) {
+				 System.out.println("Failed to delete old image: " + e.getMessage());
+			}
+				
+//				update new photo
+				String filename=file.getOriginalFilename();
+				Path path=uploadDir.resolve(filename);
+				Files.copy(file.getInputStream(),path, StandardCopyOption.REPLACE_EXISTING);
+				
+				contact.setImage(filename);
+			 }
+			 else {
+				contact.setImage(oldContact.getImage());
+			}
+			User user=this.repo.getUserByUserName(principal.getName());
+			contact.setUser(user);
+			
+			this.contactRepo.save(contact);
+			redirectAttributes.addFlashAttribute("message",
+	                new Message("Successfully updated !!", "alert-success"));
+			
+			
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			redirectAttributes.addFlashAttribute("message",
+                    new Message("Something went wrong: " + e.getMessage(), "alert-danger"));
+		
+		}
+		
+		return "redirect:/user/"+contact.getcId()+"/contact";
+	}
 	
 	
 	
-
-
+	
 }
